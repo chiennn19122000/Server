@@ -21,6 +21,14 @@
         android:layout_below="@id/text"
         android:layout_width="60pt"
         android:layout_height="60pt"/>
+    <Button
+        android:id="@+id/select"
+        android:text="chọn ảnh"
+        android:layout_marginTop="15dp"
+        android:layout_below="@id/add_image_product"
+        android:layout_centerHorizontal="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
     <EditText
         android:id="@+id/name_product"
         android:layout_marginTop="15dp"
@@ -28,7 +36,7 @@
         android:layout_marginEnd="30dp"
         android:hint="  Tên sản phẩm"
         android:inputType="text"
-        android:layout_below="@id/add_image_product"
+        android:layout_below="@id/select"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
     <EditText

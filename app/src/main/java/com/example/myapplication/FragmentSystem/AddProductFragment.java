@@ -7,6 +7,7 @@ import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.util.Base64;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,11 +22,14 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.example.myapplication.R;
-import com.example.myapplication.SendDataToServer.APIUtils;
-import com.example.myapplication.SendDataToServer.DataClient;
+import com.example.myapplication.SendDataToServer.ApiClient;
+import com.example.myapplication.SendDataToServer.ApiInterface;
+import com.example.myapplication.SendDataToServer.Img_Pojo;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.InputStream;
 
 import okhttp3.MediaType;
@@ -34,19 +38,18 @@ import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import retrofit2.http.Multipart;
 
 import static android.app.Activity.RESULT_OK;
+import static com.example.myapplication.Constants.request_code;
 
 public class AddProductFragment extends Fragment {
 
     @Nullable
 
-    private int request_code = 123;
-    String realpath = "";
     ImageView addImageProduct;
     EditText addNameProduct,addPriceProduct,addInformationProduct;
-    Button post;
+    Button post,selectimv;
+    Bitmap bitmap;
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_add_product,container,false);
@@ -56,90 +59,87 @@ public class AddProductFragment extends Fragment {
         addPriceProduct = (EditText) view.findViewById(R.id.price_product);
         addInformationProduct = (EditText) view.findViewById(R.id.information_product);
         post = (Button) view.findViewById(R.id.post_add);
+        selectimv = (Button) view.findViewById(R.id.select);
 
-        SetImage();
-        UpLoadData();
+        Select();
+        Post();
 
         return view;
     }
-    private void SetImage() {
-        addImageProduct.setOnClickListener(new View.OnClickListener() {
+    private void Select()
+    {
+        selectimv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(Intent.ACTION_PICK);
-                intent.setType("image/*");
-                startActivityForResult(intent,request_code);
+                selectImage();
             }
         });
+    }
+
+    private void Post()
+    {
+        post.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                uploadImage();
+            }
+        });
+    }
+
+    private void selectImage() {
+        Intent intent = new Intent();
+        intent.setType("image/*");
+        intent.setAction(Intent.ACTION_GET_CONTENT);
+        startActivityForResult(intent, request_code);
+    }
+
+    private String convertToString()
+    {
+        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.JPEG,100,byteArrayOutputStream);
+        byte[] imgByte = byteArrayOutputStream.toByteArray();
+        return Base64.encodeToString(imgByte,Base64.DEFAULT);
     }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == request_code && resultCode == RESULT_OK && data != null) {
-            Uri uri = data.getData();
-            realpath = getRealPathFromURI(uri);
+        if(requestCode== request_code && resultCode==RESULT_OK && data!=null)
+        {
+            Uri path = data.getData();
+
             try {
-                InputStream inputStream = getActivity().getContentResolver().openInputStream(uri);
-                Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
+                bitmap = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(),path);
                 addImageProduct.setImageBitmap(bitmap);
-            } catch (FileNotFoundException e) {
+            } catch (IOException e) {
                 e.printStackTrace();
             }
         }
     }
-    private void UpLoadData()
-    {
-        post.setOnClickListener(new View.OnClickListener() {
+
+    private void uploadImage(){
+
+        String image = convertToString();
+        String name = addNameProduct.getText().toString();
+        Integer price = Integer.parseInt(addPriceProduct.getText().toString());
+        String information = addInformationProduct.getText().toString();
+        ApiInterface apiInterface = ApiClient.getApiClient().create(ApiInterface.class);
+        Call<Img_Pojo> call = apiInterface.uploadImage(image,name,price,information);
+
+        call.enqueue(new Callback<Img_Pojo>() {
             @Override
-            public void onClick(View v) {
-                if (realpath == "")
-                {
-                    Toast.makeText(getActivity(),"loi",Toast.LENGTH_SHORT).show();
-                }
-                else {
-                    File file = new File(realpath);
-                    String file_path = file.getAbsolutePath();
+            public void onResponse(Call<Img_Pojo> call, Response<Img_Pojo> response) {
 
-                    String[] nameimage = file_path.split("\\.");
-                    file_path = nameimage[0] + System.currentTimeMillis() + "." + nameimage[1];
+                Img_Pojo img_pojo = response.body();
+                Log.d("Server Response",""+img_pojo.getResponse());
 
-                    RequestBody requestBody = RequestBody.create(MediaType.parse("multipart/form-data"),file);
+            }
 
-                    MultipartBody.Part body = MultipartBody.Part.createFormData("uploaded_file",file_path,requestBody);
-
-                    DataClient dataClient = APIUtils.getData();
-                    retrofit2.Call<String> callback = dataClient.UpLoadImage(body);
-                    callback.enqueue(new Callback<String>() {
-                        @Override
-                        public void onResponse(retrofit2.Call<String> call, Response<String> response) {
-                            if (response != null)
-                            {
-                                String message = response.body();
-                                Log.d("bbb",message);
-                            }
-                        }
-
-                        @Override
-                        public void onFailure(retrofit2.Call<String> call, Throwable t) {
-                            Log.d("bbb",t.getMessage());
-                        }
-                    });
-
-                }
+            @Override
+            public void onFailure(Call<Img_Pojo> call, Throwable t) {
+                Log.d("Server Response",""+t.toString());
             }
         });
-    }
 
-    public String getRealPathFromURI (Uri contentUri) {
-        String path = null;
-        String[] proj = { MediaStore.MediaColumns.DATA };
-        Cursor cursor = getActivity().getContentResolver().query(contentUri, proj, null, null, null);
-        if (cursor.moveToFirst()) {
-            int column_index = cursor.getColumnIndexOrThrow(MediaStore.MediaColumns.DATA);
-            path = cursor.getString(column_index);
-        }
-        cursor.close();
-        return path;
     }
 }
