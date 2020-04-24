@@ -9,5 +9,5 @@ public interface ApiInterface {
 
     @FormUrlEncoded
     @POST("upload.php")
-    Call<Img_Pojo> uploadImage(@Field("image") String image, @Field("product_name") String name, @Field("product_price") Integer price, @Field("product_information") String information);
+    Call<Img_Pojo> uploadImage(@Field("product_name") String name, @Field("product_price") Integer price, @Field("product_information") String information,@Field("image") String image);
 }

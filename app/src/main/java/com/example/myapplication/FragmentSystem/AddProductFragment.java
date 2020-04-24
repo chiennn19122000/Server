@@ -30,16 +30,12 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.InputStream;
-
-import okhttp3.MediaType;
-import okhttp3.MultipartBody;
-import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
 import static android.app.Activity.RESULT_OK;
+import static com.example.myapplication.Constants.BaseUrlUpload;
 import static com.example.myapplication.Constants.request_code;
 
 public class AddProductFragment extends Fragment {
@@ -124,7 +120,7 @@ public class AddProductFragment extends Fragment {
         Integer price = Integer.parseInt(addPriceProduct.getText().toString());
         String information = addInformationProduct.getText().toString();
         ApiInterface apiInterface = ApiClient.getApiClient().create(ApiInterface.class);
-        Call<Img_Pojo> call = apiInterface.uploadImage(image,name,price,information);
+        Call<Img_Pojo> call = apiInterface.uploadImage( name,price,information, image);
 
         call.enqueue(new Callback<Img_Pojo>() {
             @Override

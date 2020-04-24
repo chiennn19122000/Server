@@ -3,7 +3,7 @@ package com.example.myapplication.SendDataToServer;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-import static com.example.myapplication.Constants.BaseUrl;
+import static com.example.myapplication.Constants.BaseUrlUpload;
 
 public class ApiClient {
 
@@ -12,7 +12,7 @@ public class ApiClient {
 
     public static Retrofit getApiClient() {
 
-        retrofit = new Retrofit.Builder().baseUrl(BaseUrl).
+        retrofit = new Retrofit.Builder().baseUrl(BaseUrlUpload).
                 addConverterFactory(GsonConverterFactory.create()).build();
 
         return retrofit;

@@ -7,14 +7,16 @@ import android.content.SharedPreferences;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
 
-import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.squareup.picasso.Picasso;
 
 import butterknife.BindView;
 
+import static com.example.myapplication.Constants.BaseUrlUpload;
 import static com.example.myapplication.Constants.userConst;
 
 public class MainActivity extends BaseActivity {
@@ -27,6 +29,9 @@ public class MainActivity extends BaseActivity {
     @BindView(R.id.login)
     Button login;
 
+//    @BindView(R.id.imagexxx)
+//    ImageView iamge;
+
     @Override
     protected int getLayoutRes() {
         return R.layout.activity_main;
@@ -35,6 +40,7 @@ public class MainActivity extends BaseActivity {
     @Override
     protected void setupListener() {
         Login();
+//        Picasso.with(MainActivity.this).load(BaseUrlUpload +"Uploads/aa.jpg").error(R.drawable.imagegridview1).into(iamge);
 
     }
 
