@@ -1,7 +1,6 @@
 package com.example.myapplication.FragmentSystem;
 
 import android.content.Intent;
-import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
@@ -25,10 +24,9 @@ import com.example.myapplication.R;
 import com.example.myapplication.SendDataToServer.ApiClient;
 import com.example.myapplication.SendDataToServer.ApiInterface;
 import com.example.myapplication.SendDataToServer.Img_Pojo;
+import com.example.myapplication.SystemActivity;
 
 import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -36,7 +34,7 @@ import retrofit2.Response;
 
 import static android.app.Activity.RESULT_OK;
 import static com.example.myapplication.Constants.BaseUrlUpload;
-import static com.example.myapplication.Constants.request_code;
+import static com.example.myapplication.Constants.REQUEST_CODE;
 
 public class AddProductFragment extends Fragment {
 
@@ -46,6 +44,7 @@ public class AddProductFragment extends Fragment {
     EditText addNameProduct,addPriceProduct,addInformationProduct;
     Button post,selectimv;
     Bitmap bitmap;
+    Boolean x = false;
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_add_product,container,false);
@@ -57,8 +56,14 @@ public class AddProductFragment extends Fragment {
         post = (Button) view.findViewById(R.id.post_add);
         selectimv = (Button) view.findViewById(R.id.select);
 
+        bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.addimageproduct);
+
+
         Select();
         Post();
+
+
+
 
         return view;
     }
@@ -77,7 +82,33 @@ public class AddProductFragment extends Fragment {
         post.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                uploadImage();
+                if(addNameProduct.getText().toString().equals(""))
+                {
+                    x = false;
+                    Toast.makeText(getActivity(),"Nhập tên cho sản phẩm",Toast.LENGTH_LONG).show();
+                }
+                else {
+                    if (addPriceProduct.getText().toString().equals(""))
+                    {
+                        x = false;
+                        Toast.makeText(getActivity(),"Nhập giá cho sản phẩm",Toast.LENGTH_LONG).show();
+                    }
+                    else {
+                        if (addInformationProduct.getText().toString().equals(""))
+                        {
+                            x = false;
+                            Toast.makeText(getActivity(),"Nhập thông tin cho sản phẩm",Toast.LENGTH_LONG).show();
+                        }
+                        else
+                        {
+                            x = true;
+                        }
+                    }
+                }
+                if (x)
+                {
+                    uploadImage();
+                }
             }
         });
     }
@@ -86,13 +117,13 @@ public class AddProductFragment extends Fragment {
         Intent intent = new Intent();
         intent.setType("image/*");
         intent.setAction(Intent.ACTION_GET_CONTENT);
-        startActivityForResult(intent, request_code);
+        startActivityForResult(intent, REQUEST_CODE);
     }
 
-    private String convertToString()
+    private String convertToString(Bitmap bitmap1)
     {
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.JPEG,100,byteArrayOutputStream);
+        bitmap1.compress(Bitmap.CompressFormat.JPEG,100,byteArrayOutputStream);
         byte[] imgByte = byteArrayOutputStream.toByteArray();
         return Base64.encodeToString(imgByte,Base64.DEFAULT);
     }
@@ -100,7 +131,7 @@ public class AddProductFragment extends Fragment {
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if(requestCode== request_code && resultCode==RESULT_OK && data!=null)
+        if(requestCode== REQUEST_CODE && resultCode==RESULT_OK && data!=null)
         {
             Uri path = data.getData();
 
@@ -115,11 +146,11 @@ public class AddProductFragment extends Fragment {
 
     private void uploadImage(){
 
-        String image = convertToString();
+        String image = convertToString(bitmap);
         String name = addNameProduct.getText().toString();
         Integer price = Integer.parseInt(addPriceProduct.getText().toString());
         String information = addInformationProduct.getText().toString();
-        ApiInterface apiInterface = ApiClient.getApiClient().create(ApiInterface.class);
+        ApiInterface apiInterface = ApiClient.getApiClient(BaseUrlUpload).create(ApiInterface.class);
         Call<Img_Pojo> call = apiInterface.uploadImage( name,price,information, image);
 
         call.enqueue(new Callback<Img_Pojo>() {
@@ -137,5 +168,10 @@ public class AddProductFragment extends Fragment {
             }
         });
 
+        addImageProduct.setImageResource(R.drawable.addimageproduct);
+        addNameProduct.setText("");
+        addPriceProduct.setText("");
+        addInformationProduct.setText("");
+        Toast.makeText(getActivity(),"Thêm thành công",Toast.LENGTH_SHORT).show();
     }
 }

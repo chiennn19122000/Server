@@ -1,13 +1,66 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent" android:layout_height="match_parent">
+    <TextView
+        android:id="@+id/company_name"
+        android:text="Tên công ty: "
+        android:textSize="30sp"
+        android:textColor="#00BCD4"
+        android:layout_marginTop="30dp"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
 
     <TextView
-        android:text="abc"
-        android:textSize="40sp"
-        android:textColor="#000"
+        android:id="@+id/company_number_phone"
+        android:text="số điện thoại: "
+        android:textSize="30sp"
+        android:textColor="#00BCD4"
+        android:layout_below="@id/company_name"
+        android:layout_marginTop="15dp"
+        android:layout_centerHorizontal="true"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"/>
+        android:layout_height="wrap_content"/>
+
+    <TextView
+        android:id="@+id/company_email"
+        android:text="Email: "
+        android:textSize="30sp"
+        android:textColor="#00BCD4"
+        android:layout_below="@id/company_number_phone"
+        android:layout_marginTop="15dp"
+        android:layout_centerHorizontal="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+    <Button
+        android:id="@+id/thay_doi_thong_tin"
+        android:text="đổi thông tin"
+        android:textSize="25sp"
+        android:layout_below="@id/company_email"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+    <Button
+        android:id="@+id/thay_doi_pass"
+        android:text="đổi pass"
+        android:textSize="25sp"
+        android:layout_below="@id/thay_doi_thong_tin"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+    <Button
+        android:id="@+id/dang_xuat"
+        android:text="đăng xuất"
+        android:textSize="25sp"
+        android:layout_below="@id/thay_doi_pass"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
 </RelativeLayout>

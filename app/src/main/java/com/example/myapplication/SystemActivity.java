@@ -11,7 +11,7 @@ import androidx.core.view.MenuItemCompat;
 import androidx.fragment.app.Fragment;
 
 import com.example.myapplication.FragmentSystem.AddProductFragment;
-import com.example.myapplication.FragmentSystem.OrderProductFragment;
+import com.example.myapplication.FragmentSystem.ManagerSeller;
 import com.example.myapplication.FragmentSystem.PersonalFragment;
 import com.example.myapplication.FragmentSystem.ProductFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -60,8 +60,8 @@ public class SystemActivity extends BaseActivity {
                             selectedFragment = new AddProductFragment();
                             break;
                         case R.id.order:
-                            setTitle("Đơn đặt hàng");
-                            selectedFragment = new OrderProductFragment();
+                            setTitle("Manager seller");
+                            selectedFragment = new ManagerSeller();
                             break;
                         case R.id.personal:
                             setTitle("Thông tin cá nhân");

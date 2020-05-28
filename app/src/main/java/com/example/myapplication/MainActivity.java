@@ -40,7 +40,6 @@ public class MainActivity extends BaseActivity {
     @Override
     protected void setupListener() {
         Login();
-//        Picasso.with(MainActivity.this).load(BaseUrlUpload +"Uploads/aa.jpg").error(R.drawable.imagegridview1).into(iamge);
 
     }
 

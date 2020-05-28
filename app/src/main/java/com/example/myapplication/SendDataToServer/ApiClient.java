@@ -10,11 +10,13 @@ public class ApiClient {
 
     private static Retrofit retrofit;
 
-    public static Retrofit getApiClient() {
+    public static Retrofit getApiClient(String url) {
 
-        retrofit = new Retrofit.Builder().baseUrl(BaseUrlUpload).
+        retrofit = new Retrofit.Builder().baseUrl(url).
                 addConverterFactory(GsonConverterFactory.create()).build();
 
         return retrofit;
     }
+
+
 }
