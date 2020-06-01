@@ -1,10 +1,12 @@
 package com.example.myapplication;
 
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
+import android.widget.Toolbar;
 
 import com.example.myapplication.SendDataToServer.Seller;
 import com.example.myapplication.SendDataToServer.ApiClient;
@@ -51,7 +53,8 @@ public class AddSellerActivity extends BaseActivity {
 
     @Override
     protected void populateData() {
-    HideTitle();
+    callback();
+    setTitle("Đăng kí tài khoản seller");
     }
 
     private void Regis()
@@ -59,7 +62,49 @@ public class AddSellerActivity extends BaseActivity {
         regis.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                RegisSeller();
+                if (TextUtils.isEmpty(userregis.getText().toString()))
+                {
+                    Toast.makeText(AddSellerActivity.this,"Bạn chưa nhập tài khoản",Toast.LENGTH_SHORT).show();
+                }
+                else
+                {
+                    if (TextUtils.isEmpty(passregis.getText().toString()))
+                    {
+                        Toast.makeText(AddSellerActivity.this,"Bạn chưa nhập mật khẩu",Toast.LENGTH_SHORT).show();
+                    }
+                    else
+                    {
+                        if (TextUtils.isEmpty(name.getText().toString()))
+                        {
+                            Toast.makeText(AddSellerActivity.this,"Bạn chưa nhập tên",Toast.LENGTH_SHORT).show();
+                        }
+                        else
+                        {
+                            if (TextUtils.isEmpty(sdt.getText().toString()))
+                            {
+                                Toast.makeText(AddSellerActivity.this,"Bạn chưa nhập số điện thoại",Toast.LENGTH_SHORT).show();
+                            }
+                            else
+                            {
+                                if (TextUtils.isEmpty(email.getText().toString()))
+                                {
+                                    Toast.makeText(AddSellerActivity.this,"Bạn chưa nhập email",Toast.LENGTH_SHORT).show();
+                                }
+                                else
+                                {
+                                    if (TextUtils.isEmpty(placeseller.getText().toString()))
+                                    {
+                                        Toast.makeText(AddSellerActivity.this,"Bạn chưa nhập địa chỉ",Toast.LENGTH_SHORT).show();
+                                    }
+                                    else
+                                    {
+                                        RegisSeller();
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
             }
         });
     }

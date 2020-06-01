@@ -2,25 +2,16 @@
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
     android:layout_height="match_parent">
-    <TextView
-        android:id="@+id/dang_ky_seller"
-        android:text="Đăng ký tài khoản seller"
-        android:textSize="30sp"
-        android:layout_centerHorizontal="true"
-        android:textColor="#FF5722"
-        android:layout_alignParentTop="true"
-        android:layout_marginTop="30dp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+
 
     <EditText
         android:id="@+id/userregis"
         android:layout_alignParentStart="true"
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="70dp"
         android:layout_marginStart="40dp"
         android:layout_marginEnd="40dp"
-        android:layout_below="@id/dang_ky_seller"
         android:hint="Tài khoản đăng kí"
+        android:layout_alignParentTop="true"
         android:textColorHint="#03A9F4"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>

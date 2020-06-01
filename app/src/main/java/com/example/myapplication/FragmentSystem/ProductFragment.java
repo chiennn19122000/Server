@@ -2,12 +2,18 @@ package com.example.myapplication.FragmentSystem;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.GridView;
+import android.widget.SearchView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -19,8 +25,10 @@ import com.example.myapplication.Product.Product;
 import com.example.myapplication.Product.ProductAdapter;
 import com.example.myapplication.R;
 
+import java.text.Normalizer;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -36,6 +44,7 @@ public class ProductFragment extends Fragment {
 
     GridView gridView;
     ArrayList<Product> productList;
+    ArrayList<Product> arrayList = new ArrayList<>();
     ProductAdapter productAdapter;
 
     @Nullable
@@ -48,6 +57,12 @@ public class ProductFragment extends Fragment {
         addEvent();
         selectItem();
         return view;
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
     }
 
     private void addControls() {
@@ -80,8 +95,9 @@ public class ProductFragment extends Fragment {
                 List<Product> productsList = response.body();
                 for (int i = 0; i<productsList.size() ; i++) {
                     productList.add(productsList.get(i));
-                    Log.d(TAG, "onResponse" + productsList.get(i).toString());
+                    Log.d(TAG, "onResponse" + productsList.get(i).getName());
                 }
+                arrayList.addAll(productsList);
                 productAdapter.notifyDataSetChanged();
             }
 
@@ -105,11 +121,55 @@ public class ProductFragment extends Fragment {
                 intent.setClass(getActivity(),DetailActivity.class);
                 intent.putExtra(SEND_DATA,product);
                 startActivity(intent);
-//                Toast.makeText(getActivity(),String.valueOf(product.getId()),Toast.LENGTH_SHORT).show();
-
-//                productAdapter.notifyDataSetChanged();
             }
         });
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.menu_toolbar, menu);
+
+        MenuItem myActionMenuItem = menu.findItem(R.id.search);
+        SearchView searchView = (SearchView)myActionMenuItem.getActionView();
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String s) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String s) {
+                String text = stripAccents(s.toLowerCase(Locale.getDefault()));
+                productList.clear();
+                if (TextUtils.isEmpty(s)){
+                    productList.addAll(arrayList);
+                }
+                else {
+                    for (Product product : arrayList){
+                        if (stripAccents(product.getName().toLowerCase(Locale.getDefault())).contains(text)){
+                            productList.add(product);
+                        }
+                    }
+                }
+                productAdapter.notifyDataSetChanged();
+                return true;
+            }
+        });
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+
+        return super.onOptionsItemSelected(item);
+    }
+
+    public static String stripAccents(String s)
+    {
+//        Hàm xóa dấu trong tiếng việt
+        s = Normalizer.normalize(s, Normalizer.Form.NFD);
+        s = s.replaceAll("[\\p{InCombiningDiacriticalMarks}]", "");
+        return s;
     }
 }
     

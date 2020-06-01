@@ -2,6 +2,7 @@ package com.example.myapplication.GetData;
 
 import com.example.myapplication.Product.Product;
 import com.example.myapplication.SendDataToServer.Seller;
+import com.example.myapplication.Sumpay.SumPayment;
 
 import java.util.List;
 
@@ -14,4 +15,7 @@ public interface APIService {
 
     @GET("getseller.php")
     Call<List<Seller>> getAllSeller();
+
+    @GET("getsumpayment.php")
+    Call<List<SumPayment>> getSumPayment();
 }

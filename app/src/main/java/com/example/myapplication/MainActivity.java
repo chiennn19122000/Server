@@ -29,9 +29,6 @@ public class MainActivity extends BaseActivity {
     @BindView(R.id.login)
     Button login;
 
-//    @BindView(R.id.imagexxx)
-//    ImageView iamge;
-
     @Override
     protected int getLayoutRes() {
         return R.layout.activity_main;
@@ -54,9 +51,11 @@ public class MainActivity extends BaseActivity {
         login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                SharedPreferences preferences = getSharedPreferences("file_login",MODE_PRIVATE);
+                SharedPreferences preferences = getSharedPreferences("data_admin",MODE_PRIVATE);
                 if (user.getText().toString().equals(userConst)&&pass.getText().toString().equals(preferences.getString("pass","")))
                 {
+                    user.setText("");
+                    pass.setText("");
                     startActivity(new Intent(MainActivity.this,SystemActivity.class));
                 }
                 else
@@ -69,7 +68,7 @@ public class MainActivity extends BaseActivity {
 
     private void dialog() //kiểm tra lần đầu tiên mở app
     {
-        SharedPreferences preferences = getSharedPreferences("file_login",MODE_PRIVATE);
+        SharedPreferences preferences = getSharedPreferences("data_admin",MODE_PRIVATE);
         boolean check = preferences.getBoolean("check_dialog", true);
 
         if(check)
@@ -94,9 +93,12 @@ public class MainActivity extends BaseActivity {
 
     private void DataLogin()
     {
-        SharedPreferences preferences = getSharedPreferences("file_login",MODE_PRIVATE);
+        SharedPreferences preferences = getSharedPreferences("data_admin",MODE_PRIVATE);
         SharedPreferences.Editor editor = preferences.edit();
         editor.putString("pass","admin");
+        editor.putString("name","");
+        editor.putString("sdt","");
+        editor.putString("email","");
         editor.putBoolean("check_dialog",false );
         editor.commit();
     }

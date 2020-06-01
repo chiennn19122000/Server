@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+    <EditText
+        android:id="@+id/change_name_company"
+        android:layout_marginStart="30dp"
+        android:layout_marginEnd="30dp"
+        android:hint="   Tên công ty"
+        android:textColorHint="#4CAF50"
+        android:layout_marginTop="70dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+    <EditText
+        android:id="@+id/change_sdt_company"
+        android:layout_marginStart="30dp"
+        android:layout_marginEnd="30dp"
+        android:hint="   Số điện thoại"
+        android:textColorHint="#4CAF50"
+        android:inputType="number"
+        android:layout_below="@+id/change_name_company"
+        android:layout_marginTop="40dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+    <EditText
+        android:id="@+id/change_email_company"
+        android:layout_marginStart="30dp"
+        android:layout_marginEnd="30dp"
+        android:hint="   Email công ty"
+        android:textColorHint="#4CAF50"
+        android:layout_below="@+id/change_sdt_company"
+        android:layout_marginTop="40dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+    <Button
+        android:id="@+id/save_change_company"
+        android:text="Lưu thay đổi"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="30dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+</RelativeLayout>

@@ -108,6 +108,7 @@ public class AddProductFragment extends Fragment {
                 if (x)
                 {
                     uploadImage();
+
                 }
             }
         });

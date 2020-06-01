@@ -13,6 +13,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.ActionBar;
 import androidx.fragment.app.Fragment;
 
 import com.example.myapplication.AddSellerActivity;
@@ -20,6 +21,7 @@ import com.example.myapplication.GetData.APIService;
 import com.example.myapplication.Product.Product;
 import com.example.myapplication.R;
 import com.example.myapplication.SendDataToServer.Seller;
+import com.example.myapplication.Sumpay.SumPayment;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -63,7 +65,13 @@ public class ManagerSeller extends Fragment {
     }
 
     private void setData() {
+        setListSeller();
+        setRevenue();
 
+
+    }
+    private void setListSeller()
+    {
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(BaseUrlGet)
                 .addConverterFactory(GsonConverterFactory.create())
@@ -90,7 +98,32 @@ public class ManagerSeller extends Fragment {
                 Log.e(TAG, "onFailure: " + t.getMessage());
             }
         });
+    }
 
+    private void setRevenue()
+    {
 
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(BaseUrlGet)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+        APIService apiService = retrofit.create(APIService.class);
+        Call<List<SumPayment>> call = apiService.getSumPayment();
+        call.enqueue(new Callback<List<SumPayment>>() {
+            @Override
+            public void onResponse(Call<List<SumPayment>> call, Response<List<SumPayment>> response) {
+                List<SumPayment> sellerList = response.body();
+                for (int i = 0; i<sellerList.size() ; i++) {
+
+                    Log.d(TAG, "onResponse" + sellerList.get(i).getSum());
+                }
+                sumMoney.setText("Tổng doanh thu: " + sellerList.get(0).getSum() + " VNĐ");
+            }
+
+            @Override
+            public void onFailure(Call<List<SumPayment>> call, Throwable t) {
+                Log.e(TAG, "onFailure: " + t.getMessage());
+            }
+        });
     }
 }

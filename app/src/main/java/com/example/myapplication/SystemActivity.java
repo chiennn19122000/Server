@@ -1,13 +1,10 @@
 package com.example.myapplication;
 
 
-import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.SearchView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
-import androidx.core.view.MenuItemCompat;
 import androidx.fragment.app.Fragment;
 
 import com.example.myapplication.FragmentSystem.AddProductFragment;
@@ -51,7 +48,7 @@ public class SystemActivity extends BaseActivity {
                     Fragment selectedFragment = null;
 
                     switch (item.getItemId()) {
-                        case R.id.home:
+                        case R.id.home_product:
                             setTitle("Các sản phẩm đang bán");
                             selectedFragment = new ProductFragment();
                             break;
@@ -74,33 +71,12 @@ public class SystemActivity extends BaseActivity {
                 }
 
             };
-    //phương thức tìm kiếm
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_toolbar,menu);
-        MenuItem search = menu.findItem(R.id.search);
-        SearchView searchView = (SearchView) MenuItemCompat.getActionView(search);
-
-        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-            @Override
-            public boolean onQueryTextSubmit(String query) {
-                return false;
-            }
-
-            @Override
-            public boolean onQueryTextChange(String newText) {
-
-//                TODO: bắt các giá trị khi ta tìm kiếm
-                return false;
-            }
-        });
-        return super.onCreateOptionsMenu(menu);
-    }
 
     private void setTitle(String s)
     {
         ActionBar actionBar = getSupportActionBar();
         actionBar.setTitle(s);
+
     }
 
 }

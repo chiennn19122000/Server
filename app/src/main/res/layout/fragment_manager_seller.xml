@@ -23,7 +23,7 @@
             android:id="@+id/sum_money"
             android:layout_centerHorizontal="true"
             android:text="Tổng doanh thu: "
-            android:textSize="30sp"
+            android:textSize="23sp"
             android:layout_marginTop="15dp"
             android:textColor="#E91E63"
             android:layout_width="wrap_content"

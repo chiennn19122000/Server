@@ -38,14 +38,13 @@ public class ProductAdapter extends ArrayAdapter<Product> {
         LayoutInflater inflater= this.context.getLayoutInflater();
         View gridView = inflater.inflate(this.resource,null);
 
-        TextView nameflower = (TextView) gridView.findViewById(R.id.name_flower);
-        TextView priceflower = (TextView) gridView.findViewById(R.id.price_flower);
+        TextView nameflower = (TextView) gridView.findViewById(R.id.name_product);
+        TextView priceflower = (TextView) gridView.findViewById(R.id.price_prduct);
         ImageView imageflower = (ImageView) gridView.findViewById(R.id.image_grid_view);
         /** Set data to custumView*/
         final Product product = this.objects.get(position);
         nameflower.setText(product.getName());
         priceflower.setText(product.getPrice());
-//        imageflower.setImageResource(flower.getImage());
         Picasso.with(getContext()).load(BaseUrlUpload+product.getImage()).into(imageflower);
         /**Set Event Onclick*/
 

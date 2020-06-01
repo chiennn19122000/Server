@@ -9,6 +9,7 @@ import android.provider.MediaStore;
 import android.text.InputType;
 import android.util.Base64;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -16,6 +17,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.example.myapplication.BaseActivity;
@@ -71,7 +73,7 @@ public class DetailActivity extends BaseActivity {
 
     Integer id1;
     String deleteImage;
-    Boolean x = true;
+    Boolean checkBitMap = true;
 
     
     @Override
@@ -92,13 +94,15 @@ public class DetailActivity extends BaseActivity {
     @Override
     protected void populateData() {
         SetData();
+        callback();
+        setTitle("Thông tin sản phẩm");
     }
 
     private void SetData() {
         Intent intent = getIntent();
         Product product = (Product) intent.getSerializableExtra(SEND_DATA);
         Picasso.with(DetailActivity.this).load(BaseUrlUpload+product.getImage()).into(image);
-        if (x)
+        if (checkBitMap)
         {
             bitmap = getBitmapFromURL(BaseUrlUpload+product.getImage());
         }
@@ -274,7 +278,7 @@ public class DetailActivity extends BaseActivity {
         changeimage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                x = false;
+                checkBitMap = false;
                 selectImage();
             }
         });
@@ -382,4 +386,6 @@ public class DetailActivity extends BaseActivity {
             }
         }
     }
+
+
 }

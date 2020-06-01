@@ -24,6 +24,9 @@ public class Seller implements Serializable {
     @SerializedName("place")
     private String place;
 
+    @SerializedName("pay")
+    private int pay;
+
     @SerializedName("response")
     private String Response;
 
@@ -31,13 +34,14 @@ public class Seller implements Serializable {
         return Response;
     }
 
-    public Seller(String username, String password, String name, int sdt, String email, String place) {
+    public Seller(String username, String password, String name, int sdt, String email, String place, int pay) {
         this.username = username;
         this.password = password;
         this.name = name;
         this.sdt = sdt;
         this.email = email;
         this.place = place;
+        this.pay = pay;
     }
 
     public String getUsername() {
@@ -88,10 +92,18 @@ public class Seller implements Serializable {
         this.place = place;
     }
 
+    public int getPay() {
+        return pay;
+    }
+
+    public void setPay(int pay) {
+        this.pay = pay;
+    }
+
     @Override
     public String toString() {
         return "Tên: " + getName() + "\n" +
-                "    SĐT: " + getSdt() + "\n"+
-                "    Email: " + getEmail() ;
+                "    SĐT: " + getSdt() + ".  Email: " + getEmail() + "\n"+
+                "    doanh số bán được: " + getPay() + " VNĐ";
     }
 }

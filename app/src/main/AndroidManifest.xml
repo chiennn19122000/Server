@@ -14,7 +14,9 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
-        <activity android:name=".MainActivity">
+        <activity android:name=".MainActivity"
+                  android:noHistory="true">
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -24,6 +26,8 @@
         <activity android:name=".SystemActivity"/>
         <activity android:name=".Detail.DetailActivity"/>
         <activity android:name=".AddSellerActivity"/>
+        <activity android:name=".ChangePersonalActivity"/>
+        <activity android:name=".ActivityChangePass"/>
     </application>
 
 </manifest>
