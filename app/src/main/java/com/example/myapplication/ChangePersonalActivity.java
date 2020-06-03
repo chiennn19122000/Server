@@ -2,13 +2,24 @@ package com.example.myapplication;
 
 import android.content.SharedPreferences;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 import android.widget.Toolbar;
 
+import com.example.myapplication.SendDataToServer.ApiClient;
+import com.example.myapplication.SendDataToServer.ApiInterface;
+import com.example.myapplication.SendDataToServer.Img_Pojo;
+import com.example.myapplication.SendDataToServer.InfoAdmin;
+
 import butterknife.BindView;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
+import static com.example.myapplication.Constants.BaseUrlUpload;
 
 public class ChangePersonalActivity extends BaseActivity {
     @BindView(R.id.change_name_company)
@@ -66,11 +77,35 @@ public class ChangePersonalActivity extends BaseActivity {
                             editor.putString("sdt",changesdt.getText().toString());
                             editor.putString("email",changeemail.getText().toString());
                             editor.commit();
+                            UpDateInfo();
                             Toast.makeText(ChangePersonalActivity.this,"Thay đổi thành công",Toast.LENGTH_SHORT).show();
                             finish();
                         }
                     }
                 }
+            }
+        });
+    }
+
+    private void UpDateInfo() {
+        String name = changname.getText().toString();
+        int sdt = Integer.parseInt(changesdt.getText().toString());
+        String email = changeemail.getText().toString();
+        ApiInterface apiInterface = ApiClient.getApiClient(BaseUrlUpload).create(ApiInterface.class);
+        Call<InfoAdmin> call = apiInterface.updateinfo( name,sdt,email);
+
+        call.enqueue(new Callback<InfoAdmin>() {
+            @Override
+            public void onResponse(Call<InfoAdmin> call, Response<InfoAdmin> response) {
+
+                InfoAdmin infoAdmin = response.body();
+                Log.d("Server Response",""+infoAdmin.getResponse());
+
+            }
+
+            @Override
+            public void onFailure(Call<InfoAdmin> call, Throwable t) {
+                Log.d("Server Response",""+t.toString());
             }
         });
     }

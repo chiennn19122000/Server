@@ -23,4 +23,8 @@ public interface ApiInterface {
     @POST("addseller.php")
     Call<Seller> addseller(@Field("username") String username, @Field("password") String password, @Field("name") String name, @Field("sdt") int sdt , @Field("email") String email,@Field("place") String place);
 
+
+    @FormUrlEncoded
+    @POST("updateinfo.php")
+    Call<InfoAdmin> updateinfo(@Field("name_company") String name,@Field("sdt_company") Integer sdt,@Field("email_company") String email);
 }

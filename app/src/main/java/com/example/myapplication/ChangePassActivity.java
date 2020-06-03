@@ -6,11 +6,10 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
-import android.widget.Toolbar;
 
 import butterknife.BindView;
 
-public class ActivityChangePass extends BaseActivity {
+public class ChangePassActivity extends BaseActivity {
     @BindView(R.id.old_pass)
     EditText oldpass;
     @BindView(R.id.new_pass1)
@@ -46,17 +45,22 @@ public class ActivityChangePass extends BaseActivity {
                     {
                         SharedPreferences.Editor editor = preferences.edit();
                         editor.putString("pass",newpass1.getText().toString());
-                        Toast.makeText(ActivityChangePass.this,"Thay đổi mật khẩu thành công",Toast.LENGTH_LONG).show();
+                        editor.commit();
+                        Toast.makeText(ChangePassActivity.this,"Thay đổi mật khẩu thành công",Toast.LENGTH_LONG).show();
                         finish();
+                    }
+                    else if (newpass1.getText().toString().equals(newpass2.getText().toString()) == false )
+                    {
+                        Toast.makeText(ChangePassActivity.this,"Mật khẩu không khớp",Toast.LENGTH_SHORT).show();
                     }
                     else
                     {
-                        Toast.makeText(ActivityChangePass.this,"Không được bỏ trống",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(ChangePassActivity.this,"Không được bỏ trống",Toast.LENGTH_SHORT).show();
                     }
                 }
                 else
                 {
-                    Toast.makeText(ActivityChangePass.this,"Sai mật khẩu cũ",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(ChangePassActivity.this,"Sai mật khẩu cũ",Toast.LENGTH_SHORT).show();
                 }
             }
         });

@@ -27,7 +27,7 @@
         <activity android:name=".Detail.DetailActivity"/>
         <activity android:name=".AddSellerActivity"/>
         <activity android:name=".ChangePersonalActivity"/>
-        <activity android:name=".ActivityChangePass"/>
+        <activity android:name=".ChangePassActivity"/>
     </application>
 
 </manifest>
