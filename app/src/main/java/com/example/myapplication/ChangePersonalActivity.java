@@ -33,6 +33,8 @@ public class ChangePersonalActivity extends BaseActivity {
 
     @BindView(R.id.save_change_company)
     Button save;
+
+    String name,sdt,email;
     @Override
     protected int getLayoutRes() {
         return R.layout.activity_change_info;
@@ -50,49 +52,50 @@ public class ChangePersonalActivity extends BaseActivity {
     }
     private void Save()
     {
+        SharedPreferences preferences = getSharedPreferences("data_admin",MODE_PRIVATE);
         save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if(TextUtils.isEmpty(changname.getText().toString()))
                 {
-                    Toast.makeText(ChangePersonalActivity.this,"Bạn chưa nhập tên",Toast.LENGTH_SHORT).show();
+                    name = preferences.getString("name","");
                 }
                 else
                 {
-                    if (TextUtils.isEmpty(changesdt.getText().toString()))
-                    {
-                        Toast.makeText(ChangePersonalActivity.this,"Bạn chưa nhập số điện thoại",Toast.LENGTH_SHORT).show();
-                    }
-                    else
-                    {
-                        if (TextUtils.isEmpty(changeemail.getText().toString()))
-                        {
-                            Toast.makeText(ChangePersonalActivity.this,"Bạn chưa nhập email",Toast.LENGTH_SHORT).show();
-                        }
-                        else
-                        {
-                            SharedPreferences preferences = getSharedPreferences("data_admin",MODE_PRIVATE);
-                            SharedPreferences.Editor editor = preferences.edit();
-                            editor.putString("name",changname.getText().toString());
-                            editor.putString("sdt",changesdt.getText().toString());
-                            editor.putString("email",changeemail.getText().toString());
-                            editor.commit();
-                            UpDateInfo();
-                            Toast.makeText(ChangePersonalActivity.this,"Thay đổi thành công",Toast.LENGTH_SHORT).show();
-                            finish();
-                        }
-                    }
+                    name = changname.getText().toString();
                 }
+                if (TextUtils.isEmpty(changesdt.getText().toString()))
+                {
+                    sdt = preferences.getString("sdt","");
+                }
+                else
+                {
+                    sdt = changesdt.getText().toString();
+                }
+                if (TextUtils.isEmpty(changeemail.getText().toString()))
+                {
+                    email = preferences.getString("email","");
+                }
+                else
+                {
+                    email = changeemail.getText().toString();
+                }
+                SharedPreferences.Editor editor = preferences.edit();
+                editor.putString("name",name);
+                editor.putString("sdt",sdt);
+                editor.putString("email",email);
+                editor.commit();
+                UpDateInfo();
+                Toast.makeText(ChangePersonalActivity.this,"Thay đổi thành công",Toast.LENGTH_SHORT).show();
+                finish();
             }
         });
     }
 
     private void UpDateInfo() {
-        String name = changname.getText().toString();
-        int sdt = Integer.parseInt(changesdt.getText().toString());
-        String email = changeemail.getText().toString();
+
         ApiInterface apiInterface = ApiClient.getApiClient(BaseUrlUpload).create(ApiInterface.class);
-        Call<InfoAdmin> call = apiInterface.updateinfo( name,sdt,email);
+        Call<InfoAdmin> call = apiInterface.updateinfo( name,Integer.valueOf(sdt),email);
 
         call.enqueue(new Callback<InfoAdmin>() {
             @Override

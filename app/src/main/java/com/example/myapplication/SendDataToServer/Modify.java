@@ -7,9 +7,6 @@ public class Modify {
     @SerializedName("product_id")
     private Integer Id;
 
-    @SerializedName("image")
-    private String Image;
-
     @SerializedName("product_name")
     private String Name;
 
@@ -18,6 +15,9 @@ public class Modify {
 
     @SerializedName("product_information")
     private String Information;
+
+    @SerializedName("image")
+    private String Image;
 
     @SerializedName("delete_image")
     private String deleteimage;
