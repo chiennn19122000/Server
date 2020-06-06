@@ -57,7 +57,7 @@ public class SystemActivity extends BaseActivity {
                             selectedFragment = new AddProductFragment();
                             break;
                         case R.id.order:
-                            setTitle("Manager seller");
+                            setTitle("Quản lí người bán");
                             selectedFragment = new ManagerSeller();
                             break;
                         case R.id.personal:
