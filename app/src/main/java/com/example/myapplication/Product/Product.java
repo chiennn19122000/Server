@@ -35,6 +35,9 @@ public class Product implements Serializable {
     public String getName() {
         return name;
     }
+    public String getName(int a) {
+        return name;
+    }
 
     public void setName(String name) {
         this.name = name;

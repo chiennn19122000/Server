@@ -13,7 +13,6 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.SearchView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -119,7 +118,7 @@ public class ProductFragment extends Fragment {
 
                 Intent intent = new Intent();
                 intent.setClass(getActivity(),DetailActivity.class);
-                intent.putExtra(SEND_DATA,product);
+                intent.putExtra(SEND_DATA, product);
                 startActivity(intent);
             }
         });

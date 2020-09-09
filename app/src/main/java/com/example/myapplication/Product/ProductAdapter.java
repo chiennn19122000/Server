@@ -45,7 +45,7 @@ public class ProductAdapter extends ArrayAdapter<Product> {
         final Product product = this.objects.get(position);
         nameflower.setText(product.getName());
         priceflower.setText(product.getPrice());
-        Picasso.with(getContext()).load(BaseUrlUpload+product.getImage()).into(imageflower);
+        Picasso.with(getContext()).load(BaseUrlUpload+ product.getImage()).into(imageflower);
         /**Set Event Onclick*/
 
         return gridView;

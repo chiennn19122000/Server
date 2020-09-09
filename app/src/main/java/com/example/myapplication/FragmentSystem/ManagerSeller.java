@@ -13,17 +13,14 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.ActionBar;
 import androidx.fragment.app.Fragment;
 
 import com.example.myapplication.AddSellerActivity;
 import com.example.myapplication.GetData.APIService;
-import com.example.myapplication.Product.Product;
 import com.example.myapplication.R;
 import com.example.myapplication.SendDataToServer.Seller;
 import com.example.myapplication.Sumpay.SumPayment;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import retrofit2.Call;
